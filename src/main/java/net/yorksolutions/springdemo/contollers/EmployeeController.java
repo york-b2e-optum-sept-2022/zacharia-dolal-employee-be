@@ -3,10 +3,12 @@ package net.yorksolutions.springdemo.contollers;
 import net.yorksolutions.springdemo.models.Employee;
 import net.yorksolutions.springdemo.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -23,5 +25,17 @@ public class EmployeeController {
     @PostMapping
     void addNewEmployee(@RequestBody Employee employee) {
         service.addNewEmployee(employee);
+    }
+
+    @GetMapping
+    Iterable<Employee> getAll() {
+        return service.getAllEmployees();
+    }
+
+    @GetMapping("/{id}")
+    Employee getById(@PathVariable Long id) {
+        return service
+                .getById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }
