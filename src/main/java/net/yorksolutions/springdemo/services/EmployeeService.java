@@ -30,4 +30,19 @@ public class EmployeeService {
         // Optional - to make it easy to write null safe code
         return repository.findById(id);
     }
+
+    /**
+     *
+     * @param id
+     * @return - true if the id was found and deleted, false otherwise
+     */
+    public boolean deleteById(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

@@ -38,4 +38,9 @@ public class EmployeeController {
                 .getById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    @DeleteMapping("/{id}")
+    String deleteById(@PathVariable Long id) {
+        return service.deleteById(id) ? "Success" : "Fail";
+    }
 }
