@@ -1,5 +1,6 @@
 package net.yorksolutions.springdemo.services;
 
+import net.yorksolutions.springdemo.models.Employee;
 import net.yorksolutions.springdemo.models.Manager;
 import net.yorksolutions.springdemo.repositories.EmployeeRepository;
 import net.yorksolutions.springdemo.repositories.ManagerRepository;
@@ -31,5 +32,12 @@ public class ManagerService {
 
     public Iterable<Manager> getAll() {
         return repository.findAll();
+    }
+
+    public void removeEmployeeFromAllManagers(Employee employee) {
+        for (Manager manager: getAll()) {
+            manager.reports.remove(employee);
+            repository.save(manager);
+        }
     }
 }

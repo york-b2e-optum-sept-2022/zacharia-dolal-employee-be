@@ -10,10 +10,12 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     private final EmployeeRepository repository;
+    private final ManagerService managerService;
 
     @Autowired
-    public EmployeeService(EmployeeRepository repository) {
+    public EmployeeService(EmployeeRepository repository, ManagerService managerService) {
         this.repository = repository;
+        this.managerService = managerService;
     }
 
     public void addNewEmployee(Employee employee) {
@@ -37,11 +39,12 @@ public class EmployeeService {
      * @return - true if the id was found and deleted, false otherwise
      */
     public boolean deleteById(Long id) {
-        if (repository.existsById(id)) {
+        try {
+            final var employee = repository.findById(id).orElseThrow();
+            managerService.removeEmployeeFromAllManagers(employee);
             repository.deleteById(id);
             return true;
-        }
-        else {
+        } catch (Exception e) {
             return false;
         }
     }

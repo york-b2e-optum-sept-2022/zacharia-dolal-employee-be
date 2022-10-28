@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/employee")
+@CrossOrigin
 public class EmployeeController {
     private final EmployeeService service;
 
@@ -39,8 +40,16 @@ public class EmployeeController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    static class Message {
+        public String message;
+
+        Message(String message) {
+            this.message = message;
+        }
+    }
+
     @DeleteMapping("/{id}")
-    String deleteById(@PathVariable Long id) {
-        return service.deleteById(id) ? "Success" : "Fail";
+    Message deleteById(@PathVariable Long id) {
+        return new Message(service.deleteById(id) ? "Success" : "Fail");
     }
 }
