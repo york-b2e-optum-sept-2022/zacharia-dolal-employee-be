@@ -44,6 +44,7 @@ public class EmployeeController {
         public String message;
 
         Message(String message) {
+
             this.message = message;
         }
     }
@@ -52,4 +53,11 @@ public class EmployeeController {
     Message deleteById(@PathVariable Long id) {
         return new Message(service.deleteById(id) ? "Success" : "Fail");
     }
+
+
+    @PutMapping("/{id}")
+    Message UpdateById(@PathVariable Long id, @RequestBody Employee employee) {
+        return new Message(service.updateById(id, employee) ? "success" : "fail");
+    }
+
 }

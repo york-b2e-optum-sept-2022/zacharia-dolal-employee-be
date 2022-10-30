@@ -48,4 +48,17 @@ public class EmployeeService {
             return false;
         }
     }
+
+    public boolean updateById(Long id, Employee employee){
+        try {
+//            final var updatingEmployee = repository.findById(id).orElseThrow();
+            repository.findById(id).orElseThrow();
+//            this.managerService.removeEmployeeFromAllManagers(updatingEmployee);
+            this.repository.save(employee);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
